@@ -1,0 +1,23 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "contoh-1",
+      "geometry": { "type": "Polygon", "coordinates": [[[107.605, -6.925], [107.612, -6.925], [107.612, -6.919], [107.605, -6.919], [107.605, -6.925]]] },
+      "properties": { "nama": "Zona Contoh A", "kategori": "Pengujian", "keterangan": "Data contoh untuk mencoba impor" }
+    },
+    {
+      "type": "Feature",
+      "id": "contoh-2",
+      "geometry": { "type": "Polygon", "coordinates": [[[107.612, -6.925], [107.619, -6.925], [107.619, -6.919], [107.612, -6.919], [107.612, -6.925]]] },
+      "properties": { "nama": "Zona Contoh B", "kategori": "Pengujian", "keterangan": "Data contoh untuk mencoba impor" }
+    },
+    {
+      "type": "Feature",
+      "id": "contoh-3",
+      "geometry": { "type": "Polygon", "coordinates": [[[107.605, -6.919], [107.612, -6.919], [107.612, -6.913], [107.605, -6.913], [107.605, -6.919]]] },
+      "properties": { "nama": "Zona Contoh C", "kategori": "Validasi", "keterangan": "Data contoh untuk mencoba impor" }
+    }
+  ]
+}

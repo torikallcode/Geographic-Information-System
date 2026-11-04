@@ -1,0 +1,57 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: gis-tataruang-db
+    environment:
+      POSTGRES_DB: gis_tataruang
+      POSTGRES_USER: gis
+      POSTGRES_PASSWORD: gis_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gis -d gis_tataruang"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  api:
+    profiles: ["full"]
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: gis-tataruang-api
+    environment:
+      DATABASE_URL: postgres://gis:gis_dev_password@db:5432/gis_tataruang
+      PORT: 4000
+      HOST: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET:-ganti-dengan-rahasia-panjang-acak-minimal-32-karakter}
+      JWT_EXPIRES_IN: 8h
+      WEB_ORIGIN: http://localhost:8080
+      UPLOAD_DIR: /app/uploads
+      MAX_UPLOAD_MB: 50
+      EXPOSE_RESET_TOKEN: "false"
+    ports:
+      - "4000:4000"
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    profiles: ["full"]
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: gis-tataruang-web
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  uploads:
